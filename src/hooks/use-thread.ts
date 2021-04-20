@@ -62,7 +62,7 @@ const useThread = (id: number) => {
           replies: kids,
           author: by,
         }))
-        .sort((a, z) => a.timestamp - z.timestamp),
+        .sort((a, z) => z.timestamp - a.timestamp),
     [$items]
   );
   const latestItems = useMemo(
