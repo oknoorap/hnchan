@@ -1,33 +1,26 @@
 import { FC } from "react";
-import { Box, Flex, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Text, Link } from "@chakra-ui/react";
 import { MinusIcon } from "@chakra-ui/icons";
 
-import useThread from "hooks/use-thread";
+import { ReplyProvider, useReply } from "hooks/use-reply";
+import { useThread } from "hooks/use-thread";
+import { ThreadRepliesProvider } from "hooks/use-thread-replies";
+import ThreadTitle from "components/thread-title";
+import ThreadContent from "components/thread-content";
 
-import Title from "./title";
-import Content from "./content";
-import Item from "./item";
-import ViewMore from "./view-more";
+import ThreadReplies from "./replies";
 
-type ThreadProps = {
-  id: number;
-  parentId?: number;
-};
-
-const ThreadView: FC<ThreadProps> = ({ id }) => {
-  const { isOpen: isHide, onToggle } = useDisclosure();
+const ThreadView: FC = () => {
   const {
+    id,
     author,
     date,
     title,
     url,
-    latestItems,
-    itemCount,
-    isItemLoading,
-  } = useThread(id);
-  const titleProps = { id, author, date };
-  const contentProps = { title, url };
-  const viewMoreProps = { id, count: itemCount };
+    vote,
+    isHidden,
+    onToggleCollapse,
+  } = useThread();
 
   return (
     <Flex
@@ -36,11 +29,15 @@ const ThreadView: FC<ThreadProps> = ({ id }) => {
       py="2"
       borderBottom="1px"
       borderColor="gray.300"
-      opacity={isHide && 0.5}
+      opacity={isHidden && 0.5}
       _first={{ borderTop: "1px", borderColor: "gray.300" }}
     >
-      <Box
+      <Flex
         as="button"
+        h="4"
+        mr="1"
+        py="0.5"
+        px="1"
         display="inline-flex"
         alignItems="center"
         justifyContent="center"
@@ -49,37 +46,41 @@ const ThreadView: FC<ThreadProps> = ({ id }) => {
         color="white"
         fontSize="x-small"
         rounded="sm"
-        h="4"
-        mr="1"
-        py="0.5"
-        px="1"
         _focus={{ outline: "none" }}
-        onClick={onToggle}
+        onClick={onToggleCollapse}
       >
-        {isHide ? (
-          <Box as="span" fontSize="md" fontWeight="bold">
-            +
-          </Box>
+        {isHidden ? (
+          <Box as="span" fontSize="md" fontWeight="bold" children="+" />
         ) : (
           <MinusIcon />
         )}
-      </Box>
+      </Flex>
+
       <Box>
-        <Title {...titleProps} />
-        {!isHide && <Content {...contentProps} />}
-        {!isHide && <ViewMore {...viewMoreProps} />}
-        {!isHide && isItemLoading && (
-          <Flex ml="4">
-            <Spinner color="maroon" mr="1" size="sm" />
-            <Box as="span" fontSize="small">
-              Loading Replies...
+        <ThreadTitle id={id} threadId={id} author={author} date={date}>
+          <Box as="span" ml="2">
+            <Box as="span" fontSize="xs" mr="0.5">
+              &#9650;
             </Box>
-          </Flex>
-        )}
-        {!isHide &&
-          latestItems.map((item) => (
-            <Item key={item.id} threadId={id} {...item} />
-          ))}
+            <Box as="span">{vote}</Box>
+          </Box>
+        </ThreadTitle>
+
+        <ReplyProvider>
+          {!isHidden && (
+            <ThreadContent>
+              <Text fontSize="md">{title}</Text>
+              <Link rel="noopener" color="blue" href={url} isExternal>
+                {url.slice(0, 64)}
+                {url.length > 64 && "..."}
+              </Link>
+            </ThreadContent>
+          )}
+
+          <ThreadRepliesProvider>
+            {!isHidden && <ThreadReplies />}
+          </ThreadRepliesProvider>
+        </ReplyProvider>
       </Box>
     </Flex>
   );

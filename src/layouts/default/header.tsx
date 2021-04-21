@@ -40,7 +40,10 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
   title = "Untitled",
   desc = "",
 }) => {
-  const { pathname } = useRouter();
+  const {
+    query: { threadId },
+    pathname,
+  } = useRouter();
   return (
     <Flex as="header" flexDir="column" fontSize="xs" mb="4">
       <Box
@@ -98,7 +101,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
         >
           {pathname !== "/" && (
             <Box as="span" mr="1">
-              {pathname}/ -
+              {threadId ? `/thread/${threadId}` : pathname}/ -
             </Box>
           )}
           <Box as="span">{title}</Box>
