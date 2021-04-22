@@ -1,5 +1,5 @@
 import Layout from "layouts/default";
-import HomepageView from "views/home";
+import StoriesView from "views/stories";
 
 const HomePage = () => {
   return (
@@ -7,7 +7,7 @@ const HomePage = () => {
       title="Top Stories"
       desc="The stories and information posted here are taken from HackerNews API. This project is intended to be not a real thing, just as fun project."
     >
-      <HomepageView />
+      <StoriesView story="topstories" />
     </Layout>
   );
 };

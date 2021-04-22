@@ -1,11 +1,16 @@
+import { FC } from "react";
 import { Flex, Box, Spinner } from "@chakra-ui/react";
 
 import useStories from "hooks/use-stories";
 import { ThreadProvider } from "hooks/use-thread";
 import Thread from "views/thread";
 
-const HomepageView = () => {
-  const { items, error, isError, isLoading } = useStories("topstories");
+type StoriesProps = {
+  story: string;
+};
+
+const StoriesView: FC<StoriesProps> = ({ story = "topstories" }) => {
+  const { items, error, isError, isLoading } = useStories(story);
 
   if (isLoading) {
     return (
@@ -33,4 +38,4 @@ const HomepageView = () => {
   );
 };
 
-export default HomepageView;
+export default StoriesView;

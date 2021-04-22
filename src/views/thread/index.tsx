@@ -16,6 +16,7 @@ const ThreadView: FC = () => {
     date,
     title,
     url,
+    text,
     vote,
     isHidden,
     onToggleCollapse,
@@ -66,13 +67,20 @@ const ThreadView: FC = () => {
         </ThreadTitle>
 
         {!isHidden && (
-          <ThreadContent>
-            <Text fontSize="md">{title}</Text>
-            <Link rel="noopener" color="blue" href={url} isExternal>
-              {url.slice(0, 64)}
-              {url.length > 64 && "..."}
-            </Link>
-          </ThreadContent>
+          <>
+            <ThreadContent>
+              <Text fontSize="md">{title}</Text>
+              <Link rel="noopener" color="blue" href={url} isExternal>
+                {url.slice(0, 64)}
+                {url.length > 64 && "..."}
+              </Link>
+            </ThreadContent>
+            {text && (
+              <ThreadContent isHtml py="0" px="4" mb="6">
+                {text}
+              </ThreadContent>
+            )}
+          </>
         )}
 
         <ThreadRepliesProvider>

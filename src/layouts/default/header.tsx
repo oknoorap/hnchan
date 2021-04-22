@@ -14,7 +14,7 @@ export const links = [
     href: "/",
   },
   {
-    label: "news",
+    label: "newest",
     href: "/n",
   },
   {
