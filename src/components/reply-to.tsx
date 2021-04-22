@@ -33,7 +33,9 @@ const ReplyTo: FC<ReplyToProps> = ({ threadId, replyId, popover }) => {
     const rect = replyElement.getBoundingClientRect();
     const docHeight =
       window.innerHeight || document.documentElement.clientHeight;
-    const isInViewport = rect.top >= 0 && rect.bottom <= docHeight;
+    const isInViewport =
+      rect.top >= 0 - rect.height / 3 &&
+      rect.bottom <= docHeight + rect.height / 3;
 
     if (!isInViewport) {
       onOpen();
