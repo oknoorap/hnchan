@@ -6,10 +6,10 @@ import Footer from "./footer";
 
 type LayoutProps = {
   title?: string;
-  desc?: string;
+  description?: string;
 };
 
-const DefaultLayout: FC<LayoutProps> = ({ title, desc, children }) => {
+const DefaultLayout: FC<LayoutProps> = ({ title, description, children }) => {
   return (
     <Box
       sx={{
@@ -21,7 +21,7 @@ const DefaultLayout: FC<LayoutProps> = ({ title, desc, children }) => {
         },
       }}
     >
-      <Header title={title} desc={desc} />
+      <Header title={title} description={description} />
       <Box as="main">{children}</Box>
       <Footer />
     </Box>

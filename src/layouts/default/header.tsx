@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 type HeaderProps = {
   title: string;
-  desc: string;
+  description: string;
 };
 
 export const links = [
@@ -38,7 +38,7 @@ export const links = [
 
 const DefaultLayoutHeader: FC<HeaderProps> = ({
   title = "Untitled",
-  desc = "",
+  description = "",
 }) => {
   const {
     query: { threadId },
@@ -93,7 +93,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
         borderColor="gray.300"
       >
         <Heading
-          mb={desc && 2}
+          mb={description && 2}
           fontSize="3xl"
           fontWeight="bold"
           textAlign="center"
@@ -106,9 +106,9 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
           )}
           <Box as="span">{title}</Box>
         </Heading>
-        {desc && (
+        {description && (
           <Box w="30%" mx="auto" fontSize="x-small" mt="2">
-            {desc}
+            {description}
           </Box>
         )}
       </Box>

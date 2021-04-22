@@ -103,7 +103,7 @@ const useThreadRepliesHook = () => {
     return () => {
       workerRef.current?.terminate();
     };
-  }, [isLoading, threadId, replyIds]);
+  }, [isLoading, threadId]);
 
   return {
     replies,
