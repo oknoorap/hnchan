@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Box, Flex, Text, Link } from "@chakra-ui/react";
 import { MinusIcon } from "@chakra-ui/icons";
 
-import { ReplyProvider, useReply } from "hooks/use-reply";
 import { useThread } from "hooks/use-thread";
 import { ThreadRepliesProvider } from "hooks/use-thread-replies";
 import ThreadTitle from "components/thread-title";
@@ -66,21 +65,19 @@ const ThreadView: FC = () => {
           </Box>
         </ThreadTitle>
 
-        <ReplyProvider>
-          {!isHidden && (
-            <ThreadContent>
-              <Text fontSize="md">{title}</Text>
-              <Link rel="noopener" color="blue" href={url} isExternal>
-                {url.slice(0, 64)}
-                {url.length > 64 && "..."}
-              </Link>
-            </ThreadContent>
-          )}
+        {!isHidden && (
+          <ThreadContent>
+            <Text fontSize="md">{title}</Text>
+            <Link rel="noopener" color="blue" href={url} isExternal>
+              {url.slice(0, 64)}
+              {url.length > 64 && "..."}
+            </Link>
+          </ThreadContent>
+        )}
 
-          <ThreadRepliesProvider>
-            {!isHidden && <ThreadReplies />}
-          </ThreadRepliesProvider>
-        </ReplyProvider>
+        <ThreadRepliesProvider>
+          {!isHidden && <ThreadReplies />}
+        </ThreadRepliesProvider>
       </Box>
     </Flex>
   );

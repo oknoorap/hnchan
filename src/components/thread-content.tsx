@@ -1,15 +1,17 @@
 import { FC, ReactNode } from "react";
-import { Box, BoxProps } from "@chakra-ui/react";
+import { Box, BoxProps, Text } from "@chakra-ui/react";
 
 type ThreadContentProps = BoxProps & {
   isHtml?: boolean;
   preContent?: ReactNode;
+  isPopover?: boolean;
 };
 
 const ThreadContent: FC<ThreadContentProps> = ({
   children,
   preContent,
   isHtml = false,
+  isPopover = false,
   ...props
 }) => {
   return (
@@ -17,7 +19,8 @@ const ThreadContent: FC<ThreadContentProps> = ({
       {preContent}
       {!isHtml && children}
       {isHtml && (
-        <Box
+        <Text
+          noOfLines={isPopover ? 5 : null}
           dangerouslySetInnerHTML={{ __html: children as string }}
           sx={{ p: { mb: 2 } }}
         />

@@ -19,7 +19,12 @@ const ThreadTitle: FC<ThreadTitleProps> = ({
   const href = (id: number) => `/thread/${threadId}#p${id}`;
   return (
     <>
-      <Flex fontSize="sm" display="inline-flex">
+      <Flex
+        fontSize="sm"
+        display="inline-flex"
+        alignItems="baseline"
+        flexWrap="wrap"
+      >
         <Box as="strong" color="#117743" mr="1">
           {author}
         </Box>
@@ -28,7 +33,15 @@ const ThreadTitle: FC<ThreadTitleProps> = ({
           {date}
         </Box>
 
-        <Box as="span">
+        <Box
+          as="span"
+          sx={{
+            a: {
+              color: "maroon!important",
+              _hover: { color: "red!important" },
+            },
+          }}
+        >
           <Box as="span" mr="0.5">
             No.
           </Box>

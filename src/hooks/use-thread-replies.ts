@@ -1,13 +1,13 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { createContainer } from "unstated-next";
 import { useRouter } from "next/router";
 import dateFormat from "date-fns/format";
 import dateFromUnix from "date-fns/fromUnixTime";
-import uniqBy from "lodash.uniqby";
-import flatten from "lodash.flatten";
+import uniqBy from "lodash/uniqBy";
+import * as Comlink from "comlink";
 
-import { baseURL } from "hooks/use-request";
 import { useThread, ItemResponse, ItemResult } from "hooks/use-thread";
+import { ThreadRepliesWorker } from "workers/thread-replies.worker";
 
 const useThreadRepliesHook = () => {
   const {
@@ -48,59 +48,58 @@ const useThreadRepliesHook = () => {
     [replies]
   );
 
-  const fetchReply = useCallback(async (id: number) => {
-    let isSubscribed = true;
-    const response = await fetch(`${baseURL}/item/${id}.json`);
-    const item = await response.json();
-    setReplies((items) => uniqBy([...items, item], "id"));
+  const workerRef = useRef<Worker>();
+  const comlinkRef = useRef<Comlink.Remote<ThreadRepliesWorker>>();
 
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
+  const fetchReply = useCallback(
+    async (id: number) => {
+      if (!comlinkRef.current) return;
+      if ($replies.find((item) => item.id)) return;
+
+      let subscribed = true;
+      const reply = await comlinkRef.current.fetchReplies({
+        ids: [id],
+      });
+
+      setReplies((items) => uniqBy([...items, ...reply], "id"));
+
+      return () => {
+        subscribed = false;
+      };
+    },
+    [$replies]
+  );
 
   useEffect(() => {
     if (!process.browser) return;
     if (isLoading) return;
-    let isSubscribed = true;
 
-    const replies = [];
-    const fetchItems = async (ids: number[]) => {
-      const itemRequests = ids.map(async (id) => {
-        const response = await fetch(`${baseURL}/item/${id}.json`);
-        const item: ItemResponse = await response.json();
-        return item;
+    const isLatestItems = !routerThreadId;
+    workerRef.current = new Worker("/thread.worker.js");
+    comlinkRef.current = Comlink.wrap(workerRef.current);
+
+    (async () => {
+      const ids = replyIds.reverse().filter((_, index) => index < 3);
+      const replies = await comlinkRef.current.fetchReplies({
+        ids,
+        isLatestItems,
       });
 
-      try {
-        for await (const item of itemRequests) {
-          replies.push(item);
-          if (!routerThreadId && item?.kids?.length) {
-            await fetchItems(
-              item.kids.reverse().filter((_, index) => index < 3)
-            );
-          }
-        }
-      } catch {}
-    };
+      if (!isLatestItems) {
+        comlinkRef.current.refetchReplies(replies);
+        comlinkRef.current.harvestReplies(
+          Comlink.proxy(async (replies) => {
+            setReplies((items) => uniqBy([...items, ...replies], "id"));
+          })
+        );
+      }
 
-    fetchItems(
-      routerThreadId
-        ? replyIds
-        : replyIds.reverse().filter((_, index) => index < 3)
-    )
-      .then(() => {
-        setReplies((items) => uniqBy([...items, ...replies], "id"));
-        setRepliesLoadingStatus(false);
-      })
-      .then(() => {
-        if (routerThreadId) {
-          fetchItems(flatten(replies.map(({ kids }) => kids)));
-        }
-      });
+      setReplies(uniqBy(replies, "id"));
+      setRepliesLoadingStatus(false);
+    })();
 
     return () => {
-      isSubscribed = false;
+      workerRef.current?.terminate();
     };
   }, [isLoading, threadId, replyIds]);
 

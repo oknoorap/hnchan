@@ -1,7 +1,6 @@
-import { FC, useMemo, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Flex, Box } from "@chakra-ui/react";
 
-import { useReply } from "hooks/use-reply";
 import { useThread } from "hooks/use-thread";
 import { useThreadReplies } from "hooks/use-thread-replies";
 import { useThreadReply, ThreadReplyProvider } from "hooks/use-thread-reply";
@@ -17,32 +16,32 @@ const ThreadReplyItemView: FC<ThreadReplyItemProps> = ({
   isPopover = false,
 }) => {
   const { id: threadId } = useThread();
-  const { replies, fetchReply } = useThreadReplies();
-  const { onHoverReply, onLeaveReply, replyVisibleId } = useReply();
-  const { id, date, author, text, parentId } = useThreadReply();
+  const { replies: threadReplies, fetchReply } = useThreadReplies();
+  const { id, date, author, text, parentId, replies } = useThreadReply();
   const hasParentId = parentId > -1;
-  const isParentIdNotThreadId = parentId !== threadId;
+  const isParentNotThread = parentId !== threadId;
   const replyTo =
-    hasParentId && isParentIdNotThreadId
-      ? replies.find((item) => item.id === parentId)
+    hasParentId && isParentNotThread
+      ? threadReplies.find((item) => item.id === parentId)
       : null;
 
-  // useEffect(() => {
-  //   if (!process.browser) return;
-  //   if (hasParentId && isParentIdNotThreadId) {
-  //     fetchReply(parentId);
-  //   }
-  // }, [fetchReply]);
+  useEffect(() => {
+    if (!process.browser) return;
+    if (hasParentId && isParentNotThread) {
+      fetchReply(parentId);
+    }
+  }, [fetchReply]);
 
   return (
     <Flex
       id={`p${id}`}
+      className="post"
       justifyContent="flex-start"
       w={isPopover ? "30vw" : null}
       _notLast={!isPopover && { mb: 2 }}
       sx={{
-        "&.highlight": {
-          ".box": {
+        "&.highlight, &.always": {
+          ">.box": {
             bgColor: "#f0c0b0",
             borderColor: "#d99f91",
           },
@@ -64,22 +63,31 @@ const ThreadReplyItemView: FC<ThreadReplyItemProps> = ({
         px="4"
         w={isPopover ? "100%" : null}
       >
-        <ReplyTitle id={id} threadId={threadId} author={author} date={date} />
+        <ReplyTitle id={id} threadId={threadId} author={author} date={date}>
+          {replies?.length > 0 && (
+            <Box fontSize="x-small" ml="2">
+              {replies.map((replyId, index) => (
+                <Box
+                  key={`replied-by-${replyId}-${index}`}
+                  as="span"
+                  _notLast={{ mr: 1 }}
+                >
+                  <ReplyTo replyId={replyId} threadId={threadId} />
+                </Box>
+              ))}
+            </Box>
+          )}
+        </ReplyTitle>
         <ReplyContent
           isHtml
+          isPopover={isPopover}
           children={text}
           preContent={
             hasParentId && (
               <ReplyTo
-                id={id}
-                parentId={parentId}
+                replyId={parentId}
                 threadId={threadId}
-                isPopOverOpen={
-                  replyVisibleId === `${threadId}#p${parentId}>${id}`
-                }
-                onHover={onHoverReply}
-                onLeave={onLeaveReply}
-                content={
+                popover={
                   replyTo && (
                     <ThreadReplyProvider
                       initialState={{ ...replyTo, isPopover: true }}

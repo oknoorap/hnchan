@@ -46,7 +46,7 @@ const footerLinks = [
 
 const DefaultLayoutFooter = () => {
   return (
-    <Flex as="footer" flexDir="column" fontSize="xs">
+    <Flex as="footer" flexDir="column" fontSize="xs" mt="4">
       <Box
         mx="auto"
         mb="2"
