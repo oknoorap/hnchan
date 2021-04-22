@@ -16,7 +16,8 @@ const footerLinks = [
   },
   {
     label: "Lists",
-    href: "/list",
+    href: "https://news.ycombinator.com/lists",
+    isExternal: true,
   },
   {
     label: "API",
