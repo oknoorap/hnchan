@@ -65,7 +65,7 @@ const ThreadReplyItemView: FC<ThreadReplyItemProps> = ({
       >
         <ReplyTitle id={id} threadId={threadId} author={author} date={date}>
           {replies?.length > 0 && (
-            <Box fontSize="x-small" ml="2">
+            <Box fontSize="x-small" ml="2" wordBreak="break-all">
               {replies.map((replyId, index) => (
                 <Box
                   key={`replied-by-${replyId}-${index}`}

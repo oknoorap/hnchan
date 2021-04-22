@@ -42,6 +42,7 @@ const useThreadHook = (id: number) => {
   );
   const url = useMemo(() => data?.url ?? "", [data]);
   const title = useMemo(() => data?.title ?? "", [data]);
+  const text = useMemo(() => data?.text ?? "", [data]);
   const author = useMemo(() => data?.by ?? "", [data]);
   const replies = useMemo(() => data?.kids ?? [], [data]);
   const totalReplies = useMemo(() => data?.descendants ?? 0, [data]);
@@ -61,6 +62,7 @@ const useThreadHook = (id: number) => {
     date,
     replies,
     totalReplies,
+    text,
     vote,
     error,
     isError,

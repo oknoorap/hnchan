@@ -79,7 +79,9 @@ const useThreadRepliesHook = () => {
     comlinkRef.current = Comlink.wrap(workerRef.current);
 
     (async () => {
-      const ids = replyIds.reverse().filter((_, index) => index < 3);
+      const ids = !isLatestItems
+        ? replyIds
+        : replyIds.reverse().filter((_, index) => index < 3);
       const replies = await comlinkRef.current.fetchReplies({
         ids,
         isLatestItems,

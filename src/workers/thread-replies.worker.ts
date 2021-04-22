@@ -54,17 +54,17 @@ const refetchReplies = async (requestedReplies: ItemResponse[]) => {
     replies = await fetchReplies({
       ids,
     });
-  } else {
-    replies = [];
   }
 };
 
 const harvestReplies = (cb) => {
   setInterval(async () => {
     if (replies.length) {
-      await cb(replies);
-      refetchReplies(replies);
+      const repliesCopy = [...replies];
       replies = [];
+
+      await cb(repliesCopy);
+      refetchReplies(repliesCopy);
     }
   }, 200);
 };
