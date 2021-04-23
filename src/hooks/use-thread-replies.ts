@@ -102,6 +102,7 @@ const useThreadRepliesHook = () => {
 
     return () => {
       workerRef.current?.terminate();
+      comlinkRef.current = null;
     };
   }, [isLoading, threadId]);
 
