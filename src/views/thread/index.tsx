@@ -28,9 +28,9 @@ const ThreadView: FC = () => {
       alignItems="baseline"
       py="2"
       borderBottom="1px"
-      borderColor="gray.300"
+      borderColor="#d9bfb7"
       opacity={isHidden && 0.5}
-      _first={{ borderTop: "1px", borderColor: "gray.300" }}
+      _first={{ borderTop: "1px", borderColor: "#d9bfb7" }}
     >
       <Flex
         as="button"

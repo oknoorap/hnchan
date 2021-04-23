@@ -114,7 +114,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
           mb="2"
           textAlign="center"
           borderBottom="1px"
-          borderColor="gray.300"
+          borderColor="#d9bfb7"
         >
           <Heading
             mb={description && 2}

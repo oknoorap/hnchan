@@ -1,4 +1,5 @@
-import { Flex, Box, Link, Text } from "@chakra-ui/react";
+import { Flex, Box, Link, Text, Select, Button } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 
 import { links } from "./header";
@@ -46,8 +47,59 @@ const footerLinks = [
 ];
 
 const DefaultLayoutFooter = () => {
+  const { pathname } = useRouter();
   return (
-    <Flex as="footer" flexDir="column" fontSize="xs" mt="4">
+    <Flex as="footer" flexDir="column" fontSize="xs" mt="2">
+      <Flex
+        mb="4"
+        pb="2"
+        alignItems="flex-start"
+        justifyContent="space-between"
+      >
+        <Box
+          bgColor="#f0e0d6"
+          borderWidth="0 1px 1px 0"
+          borderColor="#d9bfb7"
+          py="1"
+          px="2"
+        >
+          {!pathname.includes("/thread") && (
+            <Button
+              size="xs"
+              fontSize="xs"
+              fontWeight="normal"
+              rounded="none"
+              color="black"
+              bgColor="white"
+              border="1px"
+              borderColor="gray"
+            >
+              Load More
+            </Button>
+          )}
+        </Box>
+        <Flex alignItems="center">
+          <Box as="label" htmlFor="theme-style" fontSize="sm">
+            Style:
+          </Box>
+          <Select
+            id="theme-style"
+            bgColor="white"
+            border="1px"
+            borderColor="gray"
+            size="xs"
+            ml="1"
+            _focus={{ outline: "none" }}
+          >
+            <option value="Yotsuba New">Yotsuba</option>
+            <option value="Yotsuba B New">Yotsuba B</option>
+            <option value="Futaba New">Futaba</option>
+            <option value="Burichan New">Burichan</option>
+            <option value="Tomorrow">Tomorrow</option>
+            <option value="Photon">Photon</option>
+          </Select>
+        </Flex>
+      </Flex>
       <Box
         mx="auto"
         mb="2"

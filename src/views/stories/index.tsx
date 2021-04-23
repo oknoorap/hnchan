@@ -1,9 +1,18 @@
 import { FC } from "react";
 import { Flex, Box, Spinner } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 
 import useStories from "hooks/use-stories";
-import { ThreadProvider } from "hooks/use-thread";
-import Thread from "views/thread";
+
+const ThreadProvider = dynamic(
+  () => import("hooks/use-thread").then((mod) => mod.ThreadProvider),
+  {
+    ssr: false,
+  }
+);
+const Thread = dynamic(() => import("views/thread"), {
+  ssr: false,
+});
 
 type StoriesProps = {
   story: string;
