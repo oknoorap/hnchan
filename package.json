@@ -7,7 +7,7 @@
     "dev:worker": "nodemon -e ts --watch src/workers --exec \"yarn build:worker\"",
     "build": "yarn build:worker && next build",
     "build:worker": "esbuild src/workers/thread-replies.worker.ts --minify --bundle --format=iife --outfile=public/thread.worker.js",
-    "start": "next start"
+    "start": "npx http-server out -p 3000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.11",
