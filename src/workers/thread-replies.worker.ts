@@ -44,6 +44,8 @@ const fetchReplies = async ({ ids, isLatestItems }: FetchItemOptions) => {
 };
 
 let replies: ItemResponse[] = [];
+let interval;
+let intervalCount = 0;
 
 const refetchReplies = async (requestedReplies: ItemResponse[]) => {
   const ids = uniq(
@@ -58,7 +60,11 @@ const refetchReplies = async (requestedReplies: ItemResponse[]) => {
 };
 
 const harvestReplies = (cb) => {
-  setInterval(async () => {
+  interval = setInterval(async () => {
+    if (intervalCount > 300 && !replies.length) {
+      clearInterval(interval);
+    }
+
     if (replies.length) {
       const repliesCopy = [...replies];
       replies = [];
@@ -66,6 +72,7 @@ const harvestReplies = (cb) => {
       await cb(repliesCopy);
       refetchReplies(repliesCopy);
     }
+    intervalCount++;
   }, 200);
 };
 
