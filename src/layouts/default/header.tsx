@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Flex, Box, Link, Image, Heading } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import shuffle from "lodash/shuffle";
 
 type HeaderProps = {
   title: string;
@@ -44,6 +45,12 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
     query: { threadId },
     pathname,
   } = useRouter();
+  const banner = useMemo(() => {
+    const num = Array.from({ length: 15 }, (_, i) => i + 1);
+    const bannerIndex = shuffle(num);
+    return `/banners/${bannerIndex[0]}.png`;
+  }, []);
+
   return (
     <Flex as="header" flexDir="column" fontSize="xs" mb="4">
       <Box
@@ -76,8 +83,8 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
         <Image
           w="300"
           h="100"
-          src="/images/banner.png"
-          fallbackSrc="/images/banner.png"
+          src={banner}
+          fallbackSrc="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABkCAQAAACWCMVLAAAAxklEQVR42u3SMQ0AAAzDsJU/6aGo1MOGECUHBZEAY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWBgLjIWxMBYYC2NhLDAWxsJYYCy2PT0vAGXiVAUcAAAAAElFTkSuQmCC"
           border="1px"
           borderColor="black"
         />
