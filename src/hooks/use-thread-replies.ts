@@ -19,7 +19,7 @@ const useThreadRepliesHook = () => {
   const replies = useMemo<ItemResult[]>(
     () =>
       $replies
-        .filter((item) => !item.dead && !item.deleted)
+        .filter((item) => !item?.dead && !item?.deleted)
         .map(
           ({
             time,
