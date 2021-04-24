@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Box } from "@chakra-ui/react";
 
+import { useStyle } from "hooks/use-style";
 import Header from "./header";
 import Footer from "./footer";
 
@@ -10,12 +11,19 @@ type LayoutProps = {
 };
 
 const DefaultLayout: FC<LayoutProps> = ({ title, description, children }) => {
+  const { styles } = useStyle();
   return (
     <Box
       sx={{
+        p: 2,
+        fontFamily: styles.font,
+        background: styles.bgColor,
+        backgroundImage: styles.bgGradient,
+        backgroundRepeat: "no-repeat",
+        color: styles.color,
         a: {
           _hover: {
-            color: "red",
+            color: styles.linkHoverColor,
             textDecor: "none",
           },
         },

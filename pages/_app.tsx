@@ -3,6 +3,7 @@ import { DefaultSeo } from "next-seo";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import theme from "themes/default";
+import { StyleProvider } from "hooks/use-style";
 import seoSettings from "../next-seo.config";
 
 const App = ({ Component, pageProps }) => {
@@ -15,7 +16,9 @@ const App = ({ Component, pageProps }) => {
     >
       <DefaultSeo {...seoSettings} />
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <StyleProvider>
+          <Component {...pageProps} />
+        </StyleProvider>
       </ChakraProvider>
     </SWRConfig>
   );

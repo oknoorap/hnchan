@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 
+import { useStyle } from "hooks/use-style";
+
 type ReplyToProps = {
   replyId: number;
   threadId: number;
@@ -17,6 +19,7 @@ type ReplyToProps = {
 };
 
 const ReplyTo: FC<ReplyToProps> = ({ threadId, replyId, popover }) => {
+  const { styles } = useStyle();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const isReplyToOP = replyId === threadId;
   const replyHTMLId = `#p${replyId}`;
@@ -72,7 +75,7 @@ const ReplyTo: FC<ReplyToProps> = ({ threadId, replyId, popover }) => {
       <NextLink href={`/thread/${threadId}#p${replyId}`} passHref>
         <Link
           mb="4"
-          color="navy"
+          color={styles.linkInBoxColor}
           textDecor="underline"
           _hover={{ textDecor: "underline!important" }}
           onMouseOver={onHover}

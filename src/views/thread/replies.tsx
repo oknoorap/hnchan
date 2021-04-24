@@ -2,6 +2,7 @@ import { Flex, Box, Spinner, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
+import { useStyle } from "hooks/use-style";
 import { useThread } from "hooks/use-thread";
 import { useThreadReplies } from "hooks/use-thread-replies";
 import { ThreadReplyProvider } from "hooks/use-thread-reply";
@@ -12,6 +13,7 @@ const ThreadRepliesView = () => {
   const {
     query: { threadId: routerThreadId },
   } = useRouter();
+  const { styles } = useStyle();
   const { id: threadId, replies, totalReplies } = useThread();
   const {
     isRepliesLoading,
@@ -22,7 +24,7 @@ const ThreadRepliesView = () => {
   if (isRepliesLoading) {
     return (
       <Flex ml="4">
-        <Spinner color="maroon" mr="1" size="sm" />
+        <Spinner color={styles.color} mr="1" size="sm" />
         <Box as="span" fontSize="small">
           Loading Replies...
         </Box>
@@ -37,12 +39,12 @@ const ThreadRepliesView = () => {
   return (
     <>
       {!routerThreadId && totalReplies > 5 && (
-        <Box fontSize="small" color="#707070" ml="4" mb="2">
+        <Box fontSize="small" color={styles.omittedColor} ml="4" mb="2">
           <Box as="span" mr="1">
             {totalReplies} reply omitted.
           </Box>
           <NextLink href={`/thread/${threadId}`} passHref>
-            <Link color="blue">Click here</Link>
+            <Link color={styles.linkBrightColor}>Click here</Link>
           </NextLink>{" "}
           <Box as="span">to view.</Box>
         </Box>

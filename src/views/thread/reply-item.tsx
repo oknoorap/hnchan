@@ -1,6 +1,7 @@
 import { FC, useEffect } from "react";
 import { Flex, Box } from "@chakra-ui/react";
 
+import { useStyle } from "hooks/use-style";
 import { useThread } from "hooks/use-thread";
 import { useThreadReplies } from "hooks/use-thread-replies";
 import { useThreadReply, ThreadReplyProvider } from "hooks/use-thread-reply";
@@ -15,6 +16,7 @@ type ThreadReplyItemProps = {
 const ThreadReplyItemView: FC<ThreadReplyItemProps> = ({
   isPopover = false,
 }) => {
+  const { styles } = useStyle();
   const { id: threadId } = useThread();
   const { replies: threadReplies, fetchReply } = useThreadReplies();
   const { id, date, author, text, parentId, replies } = useThreadReply();
@@ -42,23 +44,23 @@ const ThreadReplyItemView: FC<ThreadReplyItemProps> = ({
       sx={{
         "&.highlight, &.always": {
           ">.box": {
-            bgColor: "#f0c0b0",
-            borderColor: "#d99f91",
+            bgColor: styles.boxColor2,
+            borderColor: styles.borderColor2,
           },
         },
       }}
     >
       {!isPopover && (
-        <Box as="span" color="#e0bfb7" mr="1">
+        <Box as="span" color={styles.boxColor} mr="1">
           &gt;&gt;
         </Box>
       )}
 
       <Box
         className="box"
-        bgColor="#f0e0d6"
+        bgColor={styles.boxColor}
         borderWidth={isPopover ? "1px" : "0 1px 1px 0"}
-        borderColor="#d9bfb7"
+        borderColor={styles.borderColor}
         py="1"
         px="4"
         w={isPopover ? "100%" : null}

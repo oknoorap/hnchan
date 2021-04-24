@@ -3,6 +3,7 @@ import { Flex, Box, Spinner } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 import useStories from "hooks/use-stories";
+import { useStyle } from "hooks/use-style";
 
 const ThreadProvider = dynamic(
   () => import("hooks/use-thread").then((mod) => mod.ThreadProvider),
@@ -19,12 +20,13 @@ type StoriesProps = {
 };
 
 const StoriesView: FC<StoriesProps> = ({ story = "topstories" }) => {
+  const { styles } = useStyle();
   const { items, error, isError, isLoading } = useStories(story);
 
   if (isLoading) {
     return (
       <Flex alignItems="center" justifyContent="center" minH="50vh">
-        <Spinner color="maroon" mr="1" size="sm" />
+        <Spinner color={styles.color} mr="1" size="sm" />
         <Box as="span" fontSize="small">
           Loading Threads...
         </Box>

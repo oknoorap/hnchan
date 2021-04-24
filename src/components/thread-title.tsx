@@ -2,6 +2,8 @@ import { FC } from "react";
 import { Flex, Box, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 
+import { useStyle } from "hooks/use-style";
+
 type ThreadTitleProps = {
   id: number;
   threadId: number;
@@ -16,6 +18,7 @@ const ThreadTitle: FC<ThreadTitleProps> = ({
   date,
   children,
 }) => {
+  const { styles } = useStyle();
   const href = (id: number) => `/thread/${threadId}#p${id}`;
   return (
     <>
@@ -25,7 +28,7 @@ const ThreadTitle: FC<ThreadTitleProps> = ({
         alignItems="baseline"
         flexWrap="wrap"
       >
-        <Box as="strong" color="#117743" mr="1">
+        <Box as="strong" color={styles.authorColor} mr="1">
           {author}
         </Box>
 
@@ -37,8 +40,8 @@ const ThreadTitle: FC<ThreadTitleProps> = ({
           as="span"
           sx={{
             a: {
-              color: "maroon!important",
-              _hover: { color: "red!important" },
+              color: `${styles.linkInBoxColor}!important`,
+              _hover: { color: `${styles.linkHoverColor}!important` },
             },
           }}
         >

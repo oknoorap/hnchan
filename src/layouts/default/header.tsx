@@ -5,6 +5,8 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import shuffle from "lodash/shuffle";
 
+import { useStyle } from "hooks/use-style";
+
 type HeaderProps = {
   title: string;
   description: string;
@@ -46,6 +48,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
     query: { threadId },
     pathname,
   } = useRouter();
+  const { styles } = useStyle();
   const num = Array.from({ length: 15 }, (_, i) => i + 1);
   const bannerIndex = shuffle(num);
   const banner = `/banners/${bannerIndex[0]}.png`;
@@ -114,7 +117,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
           mb="2"
           textAlign="center"
           borderBottom="1px"
-          borderColor="#d9bfb7"
+          borderColor={styles.borderColor}
         >
           <Heading
             mb={description && 2}
@@ -149,7 +152,7 @@ const DefaultLayoutHeader: FC<HeaderProps> = ({
               href="https://news.ycombinator.com/submit"
               isExternal
               rel="noopener"
-              color="blue"
+              color={styles.linkBrightColor}
             >
               Start a New Thread
             </Link>
