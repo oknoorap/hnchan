@@ -97,10 +97,10 @@ const DefaultLayoutFooter = () => {
           >
             <option value="yotsuba-new">Yotsuba</option>
             <option value="yotsuba-b-new">Yotsuba B</option>
-            <option value="futaba-new">Futaba</option>
+            {/* <option value="futaba-new">Futaba</option>
             <option value="burichan-new">Burichan</option>
             <option value="tomorrow">Tomorrow</option>
-            <option value="photon">Photon</option>
+            <option value="photon">Photon</option> */}
           </Select>
         </Flex>
       </Flex>
