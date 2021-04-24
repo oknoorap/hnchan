@@ -3,17 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "dev": "yarn build:worker && next dev",
+    "dev:worker": "nodemon -e ts --watch src/workers --exec \"yarn build:worker\"",
+    "build": "yarn build:worker && next build && next export",
+    "build:worker": "esbuild src/workers/thread-replies.worker.ts --minify --bundle --format=iife --outfile=public/thread.worker.js",
+    "start": "npx http-server out -p 3000"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.11",
+    "@chakra-ui/react": "^1.5.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "comlink": "^4.3.0",
+    "date-fns": "^2.21.1",
+    "framer-motion": "^4",
+    "lodash": "^4.17.21",
     "next": "10.1.3",
+    "next-seo": "^4.24.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^0.5.5",
+    "unstated-next": "^1.1.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
     "@types/react": "^17.0.3",
+    "esbuild": "^0.11.12",
+    "nodemon": "^2.0.7",
     "typescript": "^4.2.4"
   }
 }
