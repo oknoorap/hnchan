@@ -12,8 +12,8 @@ const NewHNPage = () => {
   return (
     <>
       <NextSeo {...seoConfig} title={`/n/ - ${seoConfig.title}`} />
-      <Layout {...seoConfig}>
-        <StoriesView story="newstories" />
+      <Layout {...seoConfig} story="newstories">
+        <StoriesView />
       </Layout>
     </>
   );

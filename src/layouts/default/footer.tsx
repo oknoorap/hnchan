@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 
 import { useStyle } from "hooks/use-style";
+import { useStories } from "hooks/use-stories";
 
 import { links } from "./header";
+import LoadMore from "./load-more";
 
 const footerLinks = [
   {
@@ -66,19 +68,7 @@ const DefaultLayoutFooter = () => {
           py="1"
           px="2"
         >
-          <Button
-            size="xs"
-            fontSize="xs"
-            fontWeight="normal"
-            rounded="none"
-            color="black"
-            bgColor="white"
-            border="1px"
-            borderColor="gray"
-            disabled={pathname.includes("/thread")}
-          >
-            Load More
-          </Button>
+          {!pathname.includes("/thread") && <LoadMore />}
         </Box>
         <Flex alignItems="center">
           <Box as="label" htmlFor="theme-style" fontSize="sm">

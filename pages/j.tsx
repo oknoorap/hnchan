@@ -12,8 +12,8 @@ const JobHNPage = () => {
   return (
     <>
       <NextSeo {...seoConfig} title={`/j/ - ${seoConfig.title}`} />
-      <Layout {...seoConfig}>
-        <StoriesView story="jobstories" />
+      <Layout {...seoConfig} story="jobstories">
+        <StoriesView />
       </Layout>
     </>
   );

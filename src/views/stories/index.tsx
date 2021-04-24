@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Flex, Box, Spinner } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
-import useStories from "hooks/use-stories";
+import { useStories } from "hooks/use-stories";
 import { useStyle } from "hooks/use-style";
 
 const ThreadProvider = dynamic(
@@ -15,13 +15,9 @@ const Thread = dynamic(() => import("views/thread"), {
   ssr: false,
 });
 
-type StoriesProps = {
-  story: string;
-};
-
-const StoriesView: FC<StoriesProps> = ({ story = "topstories" }) => {
+const StoriesView: FC = () => {
   const { styles } = useStyle();
-  const { items, error, isError, isLoading } = useStories(story);
+  const { items, error, isError, isLoading } = useStories();
 
   if (isLoading) {
     return (

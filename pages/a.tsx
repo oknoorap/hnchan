@@ -12,8 +12,8 @@ const AskHNPage = () => {
   return (
     <>
       <NextSeo {...seoConfig} title={`/a/ - ${seoConfig.title}`} />
-      <Layout {...seoConfig}>
-        <StoriesView story="askstories" />
+      <Layout {...seoConfig} story="askstories">
+        <StoriesView />
       </Layout>
     </>
   );

@@ -13,8 +13,8 @@ const ShowHNPage = () => {
   return (
     <>
       <NextSeo {...seoConfig} title={`/s/ - ${seoConfig.title}`} />
-      <Layout {...seoConfig}>
-        <StoriesView story="showstories" />
+      <Layout {...seoConfig} story="showstories">
+        <StoriesView />
       </Layout>
     </>
   );

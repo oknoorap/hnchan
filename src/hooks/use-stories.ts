@@ -1,9 +1,10 @@
 import { useState, useMemo, useCallback } from "react";
+import { createContainer } from "unstated-next";
 import useRequest from "hooks/use-request";
 
 const perPage = 30;
 
-const useStories = (path: string) => {
+const useStoriesHook = (path: string) => {
   const response = useRequest<number[]>(path);
   const [visibleItem, setVisibleItem] = useState(perPage);
   const items = useMemo(() => (response.data || []).slice(0, visibleItem), [
@@ -23,4 +24,10 @@ const useStories = (path: string) => {
   };
 };
 
-export default useStories;
+const Container = createContainer(useStoriesHook);
+
+export const useStories = Container.useContainer;
+
+export const StoriesProvider = Container.Provider;
+
+export default useStoriesHook;

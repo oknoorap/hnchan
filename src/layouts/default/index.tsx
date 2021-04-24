@@ -2,17 +2,25 @@ import { FC } from "react";
 import { Box } from "@chakra-ui/react";
 
 import { useStyle } from "hooks/use-style";
+import { StoriesProvider } from "hooks/use-stories";
+
 import Header from "./header";
 import Footer from "./footer";
 
 type LayoutProps = {
   title?: string;
   description?: string;
+  story?: string;
 };
 
-const DefaultLayout: FC<LayoutProps> = ({ title, description, children }) => {
+const DefaultLayout: FC<LayoutProps> = ({
+  title,
+  description,
+  children,
+  story,
+}) => {
   const { styles } = useStyle();
-  return (
+  const container = (
     <Box
       sx={{
         p: 2,
@@ -34,6 +42,12 @@ const DefaultLayout: FC<LayoutProps> = ({ title, description, children }) => {
       <Footer />
     </Box>
   );
+
+  if (!story) {
+    return container;
+  }
+
+  return <StoriesProvider initialState={story}>{container}</StoriesProvider>;
 };
 
 export default DefaultLayout;

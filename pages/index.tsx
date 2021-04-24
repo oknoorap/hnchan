@@ -13,8 +13,8 @@ const HomePage = () => {
   return (
     <>
       <NextSeo {...seoConfig} title="HackerNews Chan" titleTemplate="%s" />
-      <Layout {...seoConfig}>
-        <StoriesView story="topstories" />
+      <Layout {...seoConfig} story="topstories">
+        <StoriesView />
       </Layout>
     </>
   );
